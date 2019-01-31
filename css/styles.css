@@ -1,9 +1,4 @@
-.pigImg{
-  width: 75vh;
- /* float: left; */
 
-
-}
 .jumbotron{
   text-align: center;
 }
@@ -14,7 +9,11 @@
 
 .die{
   width: 200px;
+
+}
+.diceImg{
   float: right;
+  text-align: center;
 }
 h1{
   font-size: 60px;
@@ -25,10 +24,23 @@ body{
   background-size: auto 100vh;
   overflow: hidden;
 }
+.winning{
+  background-image: url("../img/winner.gif");
+  background-size: auto 90vh;
+  overflow: hidden;
+}
+.lose{
+  background-image: url("../img/lose.gif");
+  background-size: cover;
+  overflow: hidden;
+}
+
+
 
 button {
   padding: 20px 40px 20px 40px;
   margin-left: 12px;
+  background-image: linear-gradient(to bottom right,rgba(255, 100, 100, 0.8),rgba(50, 200, 200, .8));
 }
 
 p{
@@ -38,18 +50,30 @@ p{
 .jumbotron{
   background-image: url("../img/piggy.jpg");
   background-size: cover;
-
   overflow: hidden;
 }
-
-/* .shake{
-  animation-duration: 10s;
-} */
-
-
 .jello{
   animation-duration: 3s;
+  animation-delay: 5s;
 }
 .fadeIn{
-  animation-duration: 10s;
+  animation-duration: 7s;
+}
+.fadeOut{
+  color: red;
+  animation-duration: 7s;
+  animation-delay: 3s;
+}
+.currentValue{
+  color: red;
+}
+.piggyImg{
+  display: none;
+  width: 75vh;
+}
+.pigImg{
+  width: 75vh;
+}
+.botImg, .botImgStanding{
+  display: none;
 }

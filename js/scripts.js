@@ -12,15 +12,23 @@ var botGame = new PiggyGame();
 
 PiggyGame.prototype.addToTurnValue = function(){
   if (this.dieValue === 1){
-    this.turnValue = 0;
     // alert("You hit a 1!")
     console.log("You hit a 1");
     botPlays();
+    this.turnValue = 0;
     botGame.findBotTotal();
     $('.totalValueTwo').text(botGame.totalValue);
     const pigSound = new Audio("./audio/Pigpissed.WAV");
     pigSound.play()
+    $(".piggyImg").show();
+    $(".botImg").hide();
+    $(".botImgStanding").hide();
+    $(".pigImg").hide();
   } else {
+    $(".pigImg").show();
+    $(".botImg").hide();
+    $(".botImgStanding").hide();
+    $(".piggyImg").hide();
     this.turnValue += this.dieValue;
     console.log("You landed on " + this.dieValue);
   }
@@ -49,7 +57,13 @@ PiggyGame.prototype.botDieRoll = function (){
 PiggyGame.prototype.findTotal = function () {
   this.totalValue += this.turnValue;
   if (this.totalValue >= 50) {
-    alert('You won!');
+
+    $('body').hide();
+    $("body").addClass("winning")
+    setTimeout(function(){
+      $('body').removeClass("winning")
+      $('body').show();
+    }, 3000);
     uiGame.dieValue=0;
     uiGame.turnValue=0;
     uiGame.totalValue=0;
@@ -61,7 +75,13 @@ PiggyGame.prototype.findTotal = function () {
 PiggyGame.prototype.findBotTotal = function () {
   this.totalValue += this.turnValue;
   if (this.totalValue >= 50) {
-    alert('You Lose!!');
+    // alert('You Lose!!');
+    $('body').hide();
+    $("body").addClass("lose")
+    setTimeout(function(){
+      $('body').removeClass("lose")
+      $('body').show();
+    }, 3000);
     uiGame.dieValue=0;
     uiGame.turnValue=0;
     uiGame.totalValue=0;
@@ -82,8 +102,16 @@ PiggyGame.prototype.holdButton = function(){
      botGame.holdButton();
      const botSound = new Audio("./audio/botSound.WAV");
      botSound.play()
+     $(".botImg").show();
+     $(".botImgStanding").hide();
+     $(".pigImg").hide();
+     $(".piggyImg").hide();
      console.log(botGame.dieValue)
    } else{
+     $(".botImg").hide();
+     $(".botImgStanding").show();
+     $(".pigImg").hide();
+     $(".piggyImg").hide();
      botGame.botDieRoll;
      console.log(botGame);
 
@@ -92,14 +120,13 @@ PiggyGame.prototype.holdButton = function(){
 $(document).ready(function(){
   $(".diceImg").click(function(){
     const rollSound = new Audio("./audio/ONEDICE.WAV");
-    rollSound.play()
+    rollSound.play();
     uiGame.dieRoll();
 
     $('img.die').addClass("animated flip");
-
     setTimeout(function(){
-    $('img.die').removeClass("animated flip")
-  }, 750);
+      $('img.die').removeClass("animated flip")
+    }, 750);
     $('.currentValue').text(uiGame.turnValue);
     $('.totalValue').text(uiGame.totalValue);
   });
