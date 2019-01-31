@@ -9,3 +9,9 @@
 .diceImg{
   float: right;
 }
+
+body{
+  background-image: linear-gradient(to bottom right,rgba(255, 100, 100, 0.5), rgba(150, 150, 255, .55));
+  background-size: auto 100vh;
+  overflow: hidden;
+}

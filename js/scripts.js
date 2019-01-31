@@ -1,183 +1,139 @@
-// Business Logic for AddressBook ---------
-function AddressBook() {
-  this.contacts = [],
-    this.currentId = 0,
-    this.contactAddresses = []
+function PiggyGame(){
+  this.dieValue=0;
+  this.turnValue=0;
+  this.totalValue=0
 }
-
-AddressBook.prototype.addContact = function (contact) {
-  contact.id = this.assignId();
-  this.contacts.push(contact);
-}
-
-AddressBook.prototype.addEmail = function (contactAddress) {
-  contactAddress.id = this.assignId();
-  this.contactAddresses.push(contactAddress);
-}
-
-AddressBook.prototype.assignId = function () {
-  this.currentId += 1;
-  return this.currentId;
-}
-
-AddressBook.prototype.findContact = function (id) {
-  for (var i = 0; i < this.contacts.length; i++) {
-    if (this.contacts[i]) {
-      if (this.contacts[i].id == id) {
-        return this.contacts[i];
-      }
-    }
-  };
-  return false;
-}
+var uiGame = new PiggyGame();
+var botGame = new PiggyGame();
 
 
-AddressBook.prototype.findcontactAddress = function (id) {
-  for (var i = 0; i < this.contactAddresses.length; i++) {
-    if (this.contactAddresses[i]) {
-      if (this.contactAddresses[i].id == id) {
-        return this.contactAddresses[i];
-      }
-    }
-  };
-  return false;
-}
-
-AddressBook.prototype.deleteContact = function (id) {
-  for (var i = 0; i < this.contacts.length; i++) {
-    if (this.contacts[i]) {
-      if (this.contacts[i].id == id) {
-        delete this.contacts[i];
-        return true;
-      }
-    }
-  };
-  return false;
-}
-
-AddressBook.prototype.deletecontactAddress = function (id) {
-  for (var i = 0; i < this.contactAddresses.length; i++) {
-    if (this.contactAddresses[i]) {
-      if (this.contactAddresses[i].id == id) {
-        delete this.contactAddresses[i];
-        return true;
-      }
-    }
-  };
-  return false;
-}
-
-// Business Logic for Contacts ---------
-function Contact(firstName, lastName, phoneNumber, email, address) {
-  this.firstName = firstName,
-    this.lastName = lastName,
-    this.phoneNumber = phoneNumber,
-    this.email = email,
-    this.address = address
-}
-
-function contactAddresses(workEmail, personalEmail, otherEmail) {
-  this.personalEmail = personalEmail,
-    this.workEmail = workEmail,
-    this.otherEmail = otherEmail
-  // this.workAddress = workAddress,
-  // this.homeAddress = homeAddress,
-  // this.otherAddress = otherAddress
-}
-
-// Contact.prototype.workEmail = function() {
-//   return this.workEmail+ " " + this.personalEmail;
-// }
 
 
-Contact.prototype.fullName = function () {
-  return this.firstName + " " + this.lastName;
-}
 
-// User Interface Logic ---------
-var addressBook = new AddressBook();
-
-function displayContactDetails(addressBookToDisplay) {
-  var contactsList = $("ul#contacts");
-  var htmlForContactInfo = "";
-  addressBookToDisplay.contacts.forEach(function (contact) {
-    htmlForContactInfo += "<li id=" + contact.id + ">" + contact.firstName + " " + contact.lastName + "</li>";
-
-  });
-  contactsList.html(htmlForContactInfo);
-};
-
-function showContact(contactId) {
-  var contact = addressBook.findContact(contactId);
-  $("#show-contact").show();
-  $(".first-name").html(contact.firstName);
-  $(".last-name").html(contact.lastName);
-  $(".phone-number").html(contact.phoneNumber);
-  $(".address").html(contact.address);
-  $(".email").html(contact.email);
-  $(".personal-email").html(contact.emails.personalEmail);
-  $(".work-email").html(contact.emails.workEmail);
-
-  if (contact.emails.otherEmail === ""){
-    $(".other-email").remove();
+PiggyGame.prototype.addToTurnValue = function(){
+  if (this.dieValue === 1){
+    this.turnValue = 0;
+    alert("You hit a 1!")
+    console.log("You hit a 1");
+    botPlays();
+    botGame.findBotTotal();
+    $('.totalValueTwo').text(botGame.totalValue);
   } else {
-    $(".other-email span").html(contact.emails.otherEmail);
+    this.turnValue += this.dieValue;
+    console.log("You landed on " + this.dieValue);
   }
-
-  if (contact.emails.personalEmail === ""){
-     $(".personal-email").remove();
-    } else {
-      $(".personal-email span").html(contact.emails.personalEmail);
+}
+PiggyGame.prototype.botAddToTurnValue = function(){
+  if (this.dieValue === 1){
+    this.turnValue = 0;
+    console.log("Bot hit a 1");
+    botGame.findBotTotal();
+  } else {
+    this.turnValue += this.dieValue;
+    console.log("Bot landed on " + this.dieValue);
   }
-
-  var buttons = $("#buttons");
-  buttons.empty();
-  buttons.append("<button class='deleteButton' id=" + + contact.id + ">Delete</button>");
+}
+PiggyGame.prototype.dieRoll = function (){
+  var dieValue = Math.floor((Math.random()*6)+1);
+  this.dieValue = dieValue;
+  this.addToTurnValue();
+}
+PiggyGame.prototype.botDieRoll = function (){
+  var dieValue = Math.floor((Math.random()*6)+1);
+  this.dieValue = dieValue;
+  this.botAddToTurnValue();
 }
 
-function attachContactListeners() {
-  $("ul#contacts").on("click", "li", function () {
-    showContact(this.id);
+PiggyGame.prototype.findTotal = function () {
+  this.totalValue += this.turnValue;
+  if (this.totalValue >= 50) {
+    alert('You won!');
+    this.dieValue=0;
+    this.turnValue=0;
+    this.totalValue=0;
+  }
+}
+PiggyGame.prototype.findBotTotal = function () {
+  this.totalValue += this.turnValue;
+  if (this.totalValue >= 50) {
+    alert('You Lose!!');
+    this.dieValue=0;
+    this.turnValue=0;
+    this.totalValue=0;
+  }
+}
+
+PiggyGame.prototype.holdButton = function(){
+  this.turnValue = 0;
+}
+
+ function botPlays(){
+   botGame.botDieRoll();
+   if (botGame.dieValue === 1){
+     botGame.holdButton();
+     console.log(botGame.dieValue)
+   } else{
+     botGame.botDieRoll;
+     console.log(botGame);
+   }
+ }
+$(document).ready(function(){
+  $(".diceImg").click(function(){
+    uiGame.dieRoll();
+    // $('.').text(uiGame.roll);
+    $('.currentValue').text(uiGame.turnValue);
+    $('.totalValue').text(uiGame.totalValue);
   });
-  $("#buttons").on("click", ".deleteButton", function () {
-    addressBook.deleteContact(this.id);
-    $("#show-contact").hide();
-    displayContactDetails(addressBook);
-  });
-};
-
-$(document).ready(function () {
-  attachContactListeners();
-  $("form#new-contact").submit(function (event) {
-    event.preventDefault();
-
-    var inputFields = [ "new-first-name",
-                        "new-last-name",
-                        "new-phone-number",
-                        "new-address",
-                        "new-email",
-                        "new-work-email",
-                        "new-personal-email",
-                        "new-other-email",]
-    var incomingVars = {}
-
-    inputFields.forEach(function(inputField){
-      var fieldValue = $("input#" + inputField).val();
-      $("input#" + inputField).val();
-      incomingVars[inputField] = fieldValue;
-    });
-
-    var newContact = new Contact(incomingVars["new-first-name"],
-                                 incomingVars["new-last-name"],
-                                 incomingVars["new-phone-number"],
-                                 incomingVars["new-email"],
-                                 incomingVars["new-address"]);
-    var newContactAdresses = new contactAddresses(incomingVars["new-work-email"],
-                                                  incomingVars["new-personal-email"],
-                                                  incomingVars["new-other-email"])
-    newContact.emails = newContactAdresses
-    addressBook.addContact(newContact);
-    addressBook.addEmail(newContactAdresses);
-    displayContactDetails(addressBook);
+  $('button').click(function(){
+    uiGame.findTotal();
+    uiGame.holdButton();
+    botPlays();
+    botGame.findBotTotal();
+    $('.totalValue').text(uiGame.totalValue);
+    $('.currentValue').text(uiGame.turnValue);
+    $('.totalValueTwo').text(botGame.totalValue);
   });
 });
+    // $(".totalValue").text(totalValue);
+// function PigDice() {
+//   this.contacts = [],
+//   this.currentId = 0,
+//   this.contactAddresses = []
+// }
+//
+// // AddressBook.prototype.addContact = function (contact) {
+// //   contact.id = this.assignId();
+// //   this.contacts.push(contact);
+// // }
+//
+// // AddressBook.prototype.addEmail = function (contactAddress) {
+// //   contactAddress.id = this.assignId();
+// //   this.contactAddresses.push(contactAddress);
+// // }
+// //
+// // AddressBook.prototype.assignId = function () {
+// //   this.currentId += 1;
+// //   return this.currentId;
+// // }
+// function attachContactListeners() {
+//   $("ul#contacts").on("click", "li", function () {
+//     showContact(this.id);
+//   });
+//   // $("#buttons").on("click", ".deleteButton", function () {
+//   //   addressBook.deleteContact(this.id);
+//   //   $("#show-contact").hide();
+//   //   displayContactDetails(addressBook);
+//   // });
+// };
+//
+//
+//
+//
+//
+//
+//
+//
+// $(document).ready(function () {
+//   attachContactListeners();
+//   $("form#new-contact").submit(function (event) {
+//     event.preventDefault();
