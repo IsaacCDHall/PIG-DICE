@@ -13,7 +13,7 @@ var botGame = new PiggyGame();
 PiggyGame.prototype.addToTurnValue = function(){
   if (this.dieValue === 1){
     this.turnValue = 0;
-    alert("You hit a 1!")
+    // alert("You hit a 1!")
     console.log("You hit a 1");
     botPlays();
     botGame.findBotTotal();
@@ -75,11 +75,29 @@ PiggyGame.prototype.holdButton = function(){
    } else{
      botGame.botDieRoll;
      console.log(botGame);
+     
    }
  }
 $(document).ready(function(){
   $(".diceImg").click(function(){
     uiGame.dieRoll();
+    // if ($('img').attr("class") === "animated flip") {
+    //   $('img').removeClass("animated flip");
+    //   console.log("yes flip");
+    // }else {
+    //   $('img').addClass("animated flip");
+    //
+    // }
+    $('img.die').addClass("animated flip");
+    var myVar;
+
+
+    setTimeout(function(){
+
+    $('img.die').removeClass("animated flip")
+  }, 750);
+
+
     // $('.').text(uiGame.roll);
     $('.currentValue').text(uiGame.turnValue);
     $('.totalValue').text(uiGame.totalValue);

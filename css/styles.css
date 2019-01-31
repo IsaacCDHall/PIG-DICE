@@ -1,3 +1,9 @@
+.pigImg{
+  width: 75vh;
+ /* float: left; */
+
+
+}
 .jumbotron{
   text-align: center;
 }
@@ -6,12 +12,36 @@
   float: right;
 }
 
-.diceImg{
+.die{
+  width: 200px;
   float: right;
 }
+h1{
+  font-size: 60px;
 
+}
 body{
-  background-image: linear-gradient(to bottom right,rgba(255, 100, 100, 0.5), rgba(150, 150, 255, .55));
+  background-image: linear-gradient(to bottom right,rgba(255, 100, 100, 0.5),rgba(50, 200, 200, .4));
   background-size: auto 100vh;
   overflow: hidden;
 }
+
+button {
+  padding: 20px 40px 20px 40px;
+  margin-left: 12px;
+}
+
+p{
+  font-size: 25px;
+}
+
+.jumbotron{
+  background-image: url("../img/piggy.jpg");
+  background-size: cover;
+
+  overflow: hidden;
+}
+
+/* .shake{
+  animation-duration: 10s;
+} */
