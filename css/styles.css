@@ -45,3 +45,11 @@ p{
 /* .shake{
   animation-duration: 10s;
 } */
+
+
+.jello{
+  animation-duration: 3s;
+}
+.fadeIn{
+  animation-duration: 10s;
+}
